@@ -1,0 +1,12 @@
+# 依赖与构建产物（容器内会重新 npm install / npm run build）
+node_modules
+dist
+
+# 版本控制与 IDE
+.git
+.idea
+.vscode
+
+# 其它
+*.log
+.DS_Store

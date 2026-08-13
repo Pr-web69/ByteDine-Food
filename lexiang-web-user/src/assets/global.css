@@ -1,0 +1,76 @@
+/* =========================================================
+   ByteBites 全局重置 & 兼容层
+   设计令牌统一在 design-tokens.css（--bb-* 系列）
+   本文件提供：
+     - 全局 reset（盒模型、字体）
+     - 旧版 --color-* 别名映射到 --bb-*（向后兼容）
+   ========================================================= */
+
+/* ===== 全局 reset ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB',
+    -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bb-bg-page-c);
+  color: var(--bb-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ===== 向后兼容别名（旧代码用 --color-* 映射到 --bb-*） ===== */
+:root {
+  --color-primary: var(--bb-primary);
+  --color-primary-hover: var(--bb-primary-dark);
+  --color-primary-light: var(--bb-primary-light);
+  --color-primary-lighter: var(--bb-primary-lighter);
+  --color-primary-bg: var(--bb-primary-bg);
+
+  --color-accent: var(--bb-accent);
+  --color-accent-hover: var(--bb-accent-hover);
+
+  --text-main: var(--bb-text-main);
+  --text-secondary: var(--bb-text-secondary);
+  --text-placeholder: var(--bb-text-placeholder);
+
+  --bg-page: var(--bb-bg-page-c);
+  --bg-card: var(--bb-bg-card);
+
+  --border-color: var(--bb-border);
+
+  --radius-sm: var(--bb-radius-sm);
+  --radius-md: var(--bb-radius-md);
+  --radius-lg: var(--bb-radius-lg);
+  --radius-xl: var(--bb-radius-xl);
+  --radius-full: var(--bb-radius-full);
+
+  --shadow-sm: var(--bb-shadow-sm);
+  --shadow-md: var(--bb-shadow-md);
+  --shadow-lg: var(--bb-shadow-lg);
+  --shadow-primary: var(--bb-shadow-primary);
+
+  --transition-fast: var(--bb-transition-fast);
+  --transition-normal: var(--bb-transition-normal);
+  --transition-slow: var(--bb-transition-slow);
+
+  --color-success: var(--bb-success);
+  --color-warning: var(--bb-warning);
+  --color-danger: var(--bb-danger);
+  --color-info: var(--bb-info);
+}

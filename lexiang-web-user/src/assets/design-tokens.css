@@ -1,0 +1,90 @@
+/* =========================================================
+   ByteBites 字节智能餐饮平台 - 统一设计令牌
+   适用于 C 端用户端 + B 端商家后台
+   技术栈：Vue3 + Vite + Element Plus
+
+   使用方式：所有组件统一引用 --bb-* 系列变量
+   本文件应在 main.js 中 import，确保全局可用
+   ========================================================= */
+
+:root {
+  /* ========== 品牌主色 · 科技蓝 ========== */
+  --bb-primary: #2563EB;
+  --bb-primary-dark: #1E40AF;
+  --bb-primary-light: #3B82F6;
+  --bb-primary-lighter: #60A5FA;
+  --bb-primary-bg: #EFF6FF;
+
+  /* ========== C 端强调色 · 暖橙 ========== */
+  --bb-accent: #F97316;
+  --bb-accent-hover: #EA580C;
+  --bb-accent-bg: #FFF7ED;
+
+  /* ========== C 端 Tag 渐变 ========== */
+  --bb-tag-hot: linear-gradient(135deg, #EF4444, #F97316);
+  --bb-tag-today: linear-gradient(135deg, #2563EB, #06B6D4);
+
+  /* ========== B 端商务色 ========== */
+  --bb-graphite: #374151;
+  --bb-graphite-light: #F3F4F6;
+  --bb-sidebar: #0F1B3A;
+  --bb-sidebar-hover: rgba(255, 255, 255, 0.08);
+  --bb-sidebar-active: #1772FF;
+
+  /* ========== 状态色 ========== */
+  --bb-success: #10B981;
+  --bb-success-bg: #ECFDF5;
+  --bb-success-border: #A7F3D0;
+  --bb-warning: #F59E0B;
+  --bb-warning-bg: #FFFBEB;
+  --bb-warning-border: #FDE68A;
+  --bb-danger: #EF4444;
+  --bb-danger-bg: #FEF2F2;
+  --bb-danger-border: #FECACA;
+  --bb-info: #6366F1;
+  --bb-info-bg: #EEF2FF;
+  --bb-info-border: #C7D2FE;
+
+  /* ========== 中性文字色 ========== */
+  --bb-text-main: #1a1a1a;
+  --bb-text-secondary: #555555;
+  --bb-text-placeholder: #999999;
+  --bb-text-disabled: #CBD5E1;
+  --bb-text-inverse: #FFFFFF;
+
+  /* ========== 背景色 ========== */
+  --bb-bg-page-c: #eff3ff;
+  --bb-bg-page-b: #F1F5F9;
+  --bb-bg-card: #FFFFFF;
+  --bb-bg-header-c: #FFFFFF;
+  --bb-bg-header-b: #FFFFFF;
+
+  /* ========== 边框 ========== */
+  --bb-border: #E2E8F0;
+  --bb-border-light: #F1F5F9;
+  --bb-border-focus: #93C5FD;
+
+  /* ========== 阴影层级 ========== */
+  --bb-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --bb-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --bb-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --bb-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --bb-shadow-primary: 0 4px 14px rgba(37, 99, 235, 0.3);
+  --bb-shadow-topbar: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  /* ========== 圆角体系 ========== */
+  --bb-radius-sm: 8px;
+  --bb-radius-md: 12px;
+  --bb-radius-lg: 16px;
+  --bb-radius-xl: 20px;
+  --bb-radius-full: 9999px;
+
+  /* ========== 过渡动画 ========== */
+  --bb-transition-fast: 0.15s ease;
+  --bb-transition-normal: 0.25s ease;
+  --bb-transition-slow: 0.4s ease;
+
+  /* ========== 字体 ========== */
+  --bb-font-sans: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bb-font-mono: 'SF Mono', 'DM Mono', 'JetBrains Mono', 'Fira Code', monospace;
+}

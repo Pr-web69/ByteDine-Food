@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ========== 继承 Spring Boot 父工程 ========== -->
+    <!-- Spring Boot 统一管理版本：Web、Redis、MySQL 等依赖版本号无需自己写 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.16</version>
+        <relativePath/>
+    </parent>
+
+    <!-- ========== 项目坐标 ========== -->
+    <groupId>com.lexiang</groupId>
+    <artifactId>lexiang-food</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>lexiang-food</name>
+    <description>乐享餐饮平台 - 校园外卖系统</description>
+
+    <!-- ========== 全局属性（子模块可继承） ========== -->
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+
+    <!-- ========== 依赖版本管理（只声明版本，不引入依赖） ========== -->
+    <!-- 子模块写依赖时不用写 version，版本由这里统一控制 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- MyBatis-Plus（Boot3 专用版） -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>3.5.9</version>
+            </dependency>
+
+            <!-- MyBatis-Plus 分页插件所需（3.5.9 起需单独引入） -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
+                <version>3.5.9</version>
+            </dependency>
+
+            <!-- Knife4j 接口文档（OpenAPI 3.x，兼容 Spring Boot 3） -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>4.3.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- ========== 子模块注册 ========== -->
+    <!-- lexiang-common：公共模块（统一返回、异常、工具类） -->
+    <!-- lexiang-server：后端服务模块（Controller、Service、Mapper） -->
+    <modules>
+        <module>lexiang-common</module>
+        <module>lexiang-server</module>
+    </modules>
+
+    <!-- ========== 仓库配置 ========== -->
+    <!-- Spring AI 还在里程碑阶段，需要加 Spring Milestones 仓库 -->
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>

@@ -1,0 +1,125 @@
+## 本地开发环境配置
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+  # MySQL数据源配置，连接餐饮业务数据库lexiang_food
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/lexiang_food?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: ${DB_PASSWORD:}
+
+  # Redis缓存配置（Docker部署的Redis服务）
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ${REDIS_PASSWORD:123456}
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+        shutdown-timeout: 100ms
+
+  # 文件上传大小限制配置（菜品图片、用户头像上传）
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+  # Spring AI 通义千问兼容OpenAI模式配置
+  # 获取方式：https://dashscope.console.aliyun.com/apiKey
+  ai:
+    openai:
+      api-key: ${AI_API_KEY:}
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      chat:
+        options:
+          model: qwen-turbo
+          temperature: 0.7
+
+# MyBatis-Plus持久层框架配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+  type-aliases-package: com.lexiang.server.entity
+
+# ========== 支付宝沙箱支付  ==========
+# 配置说明：
+# 1. RSA 私钥必须为 PKCS#8 格式（-----BEGIN PRIVATE KEY-----），PKCS#1 格式需用 openssl 转换
+# 2. natapp 免费隧道使用 HTTP 协议
+# 3. 沙箱网关必须使用测试地址
+payment:
+  # 沙箱网关
+  gateway: ${PAY_GATEWAY:https://openapi-sandbox.dl.alipaydev.com/gateway.do}
+  # 回调通知公网地址（natapp 内网穿透，用 HTTP ）
+  notify-base: ${PAY_NOTIFY_BASE:https://your-domain.ngrok-free.app}
+  # 支付完成后前端跳转地址（补齐到支付成功页面）
+  return-url: ${PAY_RETURN_URL:http://localhost:5173/order/paySuccess}
+
+  alipay:
+    # 沙箱 APPID
+    app-id: ${ALIPAY_APP_ID:}
+    # 商户 PID
+    seller-id: ${ALIPAY_SELLER_ID:}
+    # 开发者应用私钥 — PKCS#8 PEM 格式
+    private-key: ${ALIPAY_PRIVATE_KEY:}
+    # 支付宝公钥 — 验签用
+    alipay-public-key: ${ALIPAY_PUBLIC_KEY:}
+    # 签名算法固定 RSA2
+    sign-type: RSA2
+
+# Knife4j接口文档
+knife4j:
+  enable: true
+  openapi:
+    title: ByteDine 字节餐饮接口文档
+    description: 字节餐饮（ByteDine）--智慧校园外卖平台
+    version: 1.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - com.lexiang.server.controller
+
+# JWT登录鉴权配置
+jwt:
+  # 生产环境必须通过环境变量 JWT_SECRET 注入，不可在源码中硬编码
+  secret: ${JWT_SECRET:}
+  expiration: 604800000 # 7天，单位ms
+
+# MinIO对象存储配置
+minio:
+  endpoint: http://localhost:9000
+  access-key: ${MINIO_ACCESS_KEY:}
+  secret-key: ${MINIO_SECRET_KEY:}
+  bucket: lexiang-food
+  # 前端浏览器可访问的地址（返回给前端的图片URL用这个拼接，与 endpoint 区分）
+  public-endpoint: ${MINIO_PUBLIC_ENDPOINT:http://localhost:9000}
+
+# ==================== 日志级别配置 ====================
+# 支付全流程日志：控制台实时查看 AlipayUtil → PayService → PayController 完整调用链路
+logging:
+  level:
+    # 支付宝支付核心（com.lexiang.server.util.AlipayUtil）
+    com.lexiang.server.util.AlipayUtil: DEBUG
+    # 支付业务层（com.lexiang.server.payment.impl.PayServiceImpl）
+    com.lexiang.server.payment.impl.PayServiceImpl: DEBUG
+    # 支付控制器（com.lexiang.server.controller.user.PayController）
+    com.lexiang.server.controller.user.PayController: DEBUG
+    # 订单业务层（下单拦截 + 状态变更）
+    com.lexiang.server.service.impl.OrderServiceImpl: DEBUG
+    # 支付宝 SDK 底层（查看原始请求/响应报文）
+    com.alipay: INFO
+    # 全局默认级别
+    root: INFO
+

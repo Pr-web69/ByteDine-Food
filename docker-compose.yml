@@ -1,0 +1,69 @@
+services:
+  # ===== MySQL 8.0 =====
+  mysql:
+    image: mysql:8.0
+    container_name: lx-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root123}
+      MYSQL_DATABASE: lexiang_food
+      TZ: Asia/Shanghai
+    ports:
+      - "3307:3306"   # 宿主机 3307 → 容器 3306（原生 MySQL8045 占用 3306）
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./sql/02_data.sql:/docker-entrypoint-initdb.d/02_data.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+
+  # ===== Redis 7 =====
+  redis:
+    image: redis:7-alpine
+    container_name: lx-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis123} --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis123}", "--raw", "ping"]
+      timeout: 5s
+      retries: 5
+
+  # ===== MinIO 对象存储（菜品图 / banner 图上传） =====
+  minio:
+    image: minio/minio:latest
+    container_name: lx-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+      TZ: Asia/Shanghai
+    ports:
+      - "9000:9000"   # 对象存储 API
+      - "9001:9001"   # Web 管理控制台
+    volumes:
+      - minio_data:/data
+
+  # ===== 前端 Nginx（用户端 + 商家端 + 反向代理） =====
+  web:
+    build:
+      context: ./lexiang-web-user
+      dockerfile: Dockerfile
+    container_name: lx-web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    # 删掉依赖后端的配置
+    # depends_on:
+    #   - backend
+
+volumes:
+  mysql_data:
+  redis_data:
+  minio_data:

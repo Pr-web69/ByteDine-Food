@@ -1,0 +1,2 @@
+[permissions]
+allow = ["Bash(cd D:\\JAVA\\JavaStudy\\lexiang-food && git branch -a)", "Bash(cd D:\\JAVA\\JavaStudy\\lexiang-food && git diff --stat HEAD~5..HEAD 2>$null; if ($LASTEXITCODE -ne 0) { git log --oneline -5 --name-status })", "Bash(git -C:*)", "Bash(cd D:\\JAVA\\JavaStudy\\lexiang-food\\lexiang-web-user; npm run dev 2>&1)"]
